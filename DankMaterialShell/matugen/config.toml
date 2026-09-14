@@ -1,0 +1,9 @@
+[config]
+
+[templates.zellij]
+input_path = "/home/vis/.config/DankMaterialShell/matugen/templates/zellij/dankcolors.kdl"
+output_path = "/home/vis/.config/zellij/themes/dankcolors.kdl"
+
+[templates.Obsidian]
+input_path = "/home/vis/.config/matugen/templates/obsidian.css"
+output_path = "/home/vis/Zettlekasten/.obsidian/snippets/matugen.css"
