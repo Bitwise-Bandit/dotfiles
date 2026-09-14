@@ -88,7 +88,7 @@
   },
 
 "custom/arch": {
-   "format": " 󰣇  ", 
+   "format": "  ", 
     "tooltip": "Next wallpaper",
     "on-click": "/home/vis/.config/sway/scripts/wallpaper-switcher.sh",
     "interval": 3600 // update once per hour; can be set to 0 for static icon
