@@ -1,6 +1,6 @@
 ## General
 show=drun
-term=kitty --login
+term=kitty 
 prompt=Apps
 normal_window=false
 layer=top
