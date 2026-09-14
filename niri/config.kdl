@@ -39,14 +39,14 @@ input {
     touchpad {
         // off
         tap
-        // dwt
-        // dwtp
+         dwt
+         dwtp
         // drag false
-        // drag-lock
-        // natural-scroll
+         drag-lock
+         // natural-scroll
         // accel-speed 0.2
         // accel-profile "flat"
-        // scroll-method "two-finger"
+         // scroll-method "two-finger"
         // disabled-on-external-mouse
     }
 
@@ -111,7 +111,7 @@ input {
     // so to put another output directly adjacent to it on the right, set its x to 1920.
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
-    position x=1280 y=0
+    position x=0 y=0
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -163,12 +163,12 @@ layout {
     // `draw-border-with-background`.
 
     // You can change how the focus ring looks.
-    focus-ring {
+    /- focus-ring {
         // Uncomment this line to disable the focus ring.
         // off
 
         // How many logical pixels the ring extends out from the windows.
-        width 4
+        width 2
 
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
@@ -279,8 +279,10 @@ layout {
 // This line starts waybar, a commonly used bar for Wayland compositors.
 // spawn-at-startup "waybar"
 spawn-at-startup "dms" "run"
+spawn-at-startup "kitty"
 
 binds {
+    Mod+Shift+E { quit; }
     Mod+H repeat=false hotkey-overlay-title="Focus Column Left"     { focus-column-left;    }
     Mod+J repeat=false hotkey-overlay-title="Focus Window Down"     { focus-window-down;    }
     Mod+K repeat=false hotkey-overlay-title="Focus Window Up"       { focus-window-up;      }
@@ -317,6 +319,8 @@ binds {
     Mod+Shift+Minus repeat=false hotkey-overlay-title="Decrease Window Width"          { set-window-height "-10%";                 }
     Mod+Shift+Equal repeat=false hotkey-overlay-title="Increase Window Width"          { set-window-height "+10%";                 }
 
+    Mod+C { center-column; }
+
     Mod+1 repeat=false hotkey-overlay-title="Move to Workspace 1"              { focus-workspace 1;          }
     Mod+2 repeat=false hotkey-overlay-title="Move to Workspace 2"              { focus-workspace 2;          }
     Mod+3 repeat=false hotkey-overlay-title="Move to Workspace 3"              { focus-workspace 3;          }
@@ -341,8 +345,9 @@ binds {
     Mod+Ctrl+C repeat=false hotkey-overlay-title="Clear Dynamic Cast"                  { clear-dynamic-cast-target; };
 
     Mod+Return repeat=false hotkey-overlay-title="Open Terminal" { spawn "kitty" ;}
-    Mod+E repeat=false hotkey-overlay-title="Open Explorer" { spawn "wlr-which-key" "--initial-keys" "e";   }
-    Mod+B repeat=false hotkey-overlay-title="Open Browser"  { spawn "wlr-which-key" "--initial-keys" "b";   }
+    Mod+E repeat=false hotkey-overlay-title="Open Explorer" { spawn "nautilus" ;   }
+    Mod+B repeat=false hotkey-overlay-title="Open Browser"  { spawn "librewolf" ;   }
+    Mod+Shift+V repeat=false hotkey-overlay-title="Open vpn"  { spawn "protonvpn-app" ;   }
 
     Print repeat=false hotkey-overlay-title="Take a Screenshot"                                    { spawn "dms" "screenshot";                               }
     Mod+Print repeat=false hotkey-overlay-title="Take a Screenshot (Niri)"                         { screenshot;                                             }
@@ -350,9 +355,13 @@ binds {
     Mod+M repeat=false hotkey-overlay-title="Toggle Process List"                                  { spawn "dms" "ipc" "processlist" "toggle";               }
     Mod+N repeat=false hotkey-overlay-title="Toggle Notification Center"                           { spawn "dms" "ipc" "notifications" "toggle";             }
     Mod+P repeat=false hotkey-overlay-title="Toggle Notepad"                                       { spawn "dms" "ipc" "notepad" "toggle";                   }
-    Mod+V repeat=false hotkey-overlay-title="Toggle Clipboard Manager"                             { spawn "dms" "ipc" "call" "clipboardPlus" "togglePanel"; }
+    Mod+V repeat=false hotkey-overlay-title="Toggle Clipboard Manager"                             { spawn "dms" "ipc" "clipboard" "open";                   }
     Mod+X repeat=false hotkey-overlay-title="Toggle Power Menu"                                    { spawn "dms" "ipc" "powermenu" "toggle";                 }
     Mod+S repeat=false hotkey-overlay-title="Toggle Settings"                                      { spawn "dms" "ipc" "settings" "toggle";                  }
+
+    Mod+W hotkey-overlay-title="Browse Wallpapers" {
+    spawn "dms" "ipc" "call" "dash" "toggle" "wallpaper";
+    }
     Mod+Space repeat=false hotkey-overlay-title="Toggle Application Launcher"                      { spawn "dms" "ipc" "spotlight" "toggle";                 }
     Mod+Ctrl+L repeat=false hotkey-overlay-title="Toggle Lock Screen"                              { spawn "dms" "ipc" "lock" "lock";                        }
     Mod+Shift+M allow-when-locked=true repeat=false hotkey-overlay-title="Toggle Light/Dark Theme" { spawn "dms" "ipc" "call" "theme" "toggle";              }
@@ -371,7 +380,7 @@ binds {
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
-    // skip-at-startup
+    skip-at-startup
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -412,6 +421,25 @@ window-rule {
     // You can get away with just app-id="wezterm" if you want.
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
+}
+window-rule {
+    opacity 0.85
+
+    background-effect {
+        blur true
+        xray true
+    }
+}
+
+layer-rule {
+    match namespace="^dms-clipboardPlus-panel"
+
+    opacity 0.85
+
+    background-effect {
+        blur true
+        xray true
+    }
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
@@ -455,7 +483,6 @@ window-rule {
 
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
-    Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
@@ -710,7 +737,6 @@ window-rule {
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
-    Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
 
     // Powers off the monitors. To turn them back on, do any input like
